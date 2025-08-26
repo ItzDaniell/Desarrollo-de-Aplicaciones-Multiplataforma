@@ -1,0 +1,47 @@
+abstract class Empleado {
+  String nombre;
+  int tiempoTrabajo;
+  double sueldo;
+  
+  Empleado({
+    required this.nombre,
+    required this.tiempoTrabajo,
+    required this.sueldo
+  });
+    
+  void bonificacion();
+}
+
+class Gerente extends Empleado{
+  Gerente({
+    required String nombre,
+    required int tiempoTrabajo,
+    required double sueldo
+  }): super(nombre: nombre, tiempoTrabajo: tiempoTrabajo, sueldo: sueldo);
+  
+  void bonificacion(){
+    double bono = 0.25 * this.sueldo;
+    print("El gerente de nombre $nombre, tiene un tiempo de trabajo de $tiempoTrabajo horas con sueldo de $sueldo obtuvo una bonificacion de $bono");
+  }
+}
+
+class Operador extends Empleado{
+  Operador({
+    required String nombre,
+    required int tiempoTrabajo,
+    required double sueldo
+  }): super(nombre: nombre, tiempoTrabajo: tiempoTrabajo, sueldo: sueldo);
+  
+  void bonificacion(){
+    double bono = 0.10 * this.sueldo;
+    print("El operador de nombre $nombre, tiene un tiempo de trabajo de $tiempoTrabajo horas con sueldo de $sueldo obtuvo una bonificacion de $bono");
+  }
+}
+
+void main(){
+  final operador = Operador(nombre: "Juan", tiempoTrabajo: 5, sueldo: 1000);
+  operador.bonificacion();
+  
+  final gerente = Gerente(nombre: "Juan", tiempoTrabajo: 5, sueldo: 1000);
+  operador.bonificacion();
+}

@@ -1,0 +1,38 @@
+class Vehiculo {
+  String marca;
+  String modelo;
+  String tipo;
+
+  Vehiculo({required this.marca, required this.modelo, required this.tipo});
+
+  void detalles() {
+    print("El vehiculo de marca $marca, modelo $modelo es de tipo $tipo");
+  }
+}
+
+class Auto extends Vehiculo {
+  String tipoCombustible;
+
+  Auto({
+    required String marca,
+    required String modelo,
+    required String tipo,
+    required this.tipoCombustible,
+  }) : super(marca: marca, modelo: modelo, tipo: tipo);
+
+  @override
+  void detalles() {
+    print(
+      "El auto de marca $marca, modelo $modelo es de tipo $tipo y usa un combustible de tipo $tipoCombustible",
+    );
+  }
+}
+
+
+void main() {
+  final vehiculo = Vehiculo(marca: "Mazda", modelo: "Furai", tipo: "Deportivo");
+  vehiculo.detalles();
+  
+  final auto = Auto(marca: "Pagani", modelo: "Huayra", tipo: "Deportivo", tipoCombustible: "Hibrido");
+  auto.detalles();
+}

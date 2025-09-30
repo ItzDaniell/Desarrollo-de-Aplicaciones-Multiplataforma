@@ -1,0 +1,26 @@
+class Tareas {
+  var tareas = [];
+
+  void mostrarTareas() {
+    print("Lista de tareas: ${tareas}");
+  }
+
+  void agregarTarea(String tarea) {
+    tareas.add(tarea);
+    print("Tarea agregada: ${tarea}");
+  }
+  
+  void eliminarTarea(String tarea){
+    tareas.remove(tarea);
+    print("Tarea eliminada: ${tarea}");
+  }
+}
+
+void main() {
+  final tareas = Tareas();
+  var tarea = "Examen de Dart";
+  tareas.agregarTarea(tarea);
+  tareas.mostrarTareas();
+  tareas.eliminarTarea(tarea);
+  tareas.mostrarTareas();
+}

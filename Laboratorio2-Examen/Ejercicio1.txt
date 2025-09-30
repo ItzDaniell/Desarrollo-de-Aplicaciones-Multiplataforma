@@ -1,0 +1,30 @@
+class Vehiculo {
+  String marca;
+  String modelo;
+  int lanzamiento;
+  
+  Vehiculo({required this.marca, required this.modelo, required this.lanzamiento});
+  
+  void fichaTecnica(){
+    print("Ficha tecnica del vehiculo: ${marca}, ${modelo}, lanzado el año: ${lanzamiento}");
+  }
+}
+
+class Moto extends Vehiculo {
+  String tipo;
+  Moto({required String marca, required String modelo, required int lanzamiento,
+    required this.tipo
+  }): super(marca: marca, modelo: modelo, lanzamiento: lanzamiento);
+  
+  @override
+  void fichaTecnica(){
+    print("Ficha tecnica de la moto: ${marca}, ${modelo}, tipo: ${tipo}, lanzado el año: ${lanzamiento}");
+  }
+}
+
+void main(){
+  final moto = Moto(marca: "MarcaMoto", modelo: "Modelo1", lanzamiento: 2016, tipo: "Electico");
+  moto.fichaTecnica();
+  final vehiculo = Vehiculo(marca: "Mazda", modelo: "Furai", lanzamiento: 2015);
+  vehiculo.fichaTecnica();
+}

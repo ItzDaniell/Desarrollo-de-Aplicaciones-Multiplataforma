@@ -1,148 +1,162 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MaterialApp(
+    home: ModernLoginPage(),
+    debugShowCheckedModeBanner: false,
+  ));
 }
 
-//Navitagor 1.0 vs 2.0
+class ModernLoginPage extends StatefulWidget {
+  const ModernLoginPage({super.key});
 
-// Route name
-
-// Widget Page
-
-class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: LoginView());
-  }
+  State<ModernLoginPage> createState() => _ModernLoginPageState();
 }
 
-class LoginView extends StatelessWidget {
+class _ModernLoginPageState extends State<ModernLoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool isPasswordVisible = false;
+
+  void login() {
+    final email = emailController.text;
+    final password = passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Por favor, completa todos los campos")),
+      );
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Intentando iniciar sesión como $email")),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("Login"),
-            TextField(decoration: const InputDecoration(labelText: 'Correo')),
-            const SizedBox(height: 12),
-            TextField(
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Contraseña'),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF4CAF50), Color(0xFF2E7D32)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Container(
+              width: 800,
+              height: 600,
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.lock_outline, size: 70, color: Color(0xFF4CAF50)),
+                  const SizedBox(height: 16),
+                  const Text(
+                    "Bienvenido",
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2E7D32),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    "Inicia sesión para continuar",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Campo de correo
+                  TextField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      labelText: "Correo electrónico",
+                      prefixIcon: const Icon(Icons.email_outlined),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Campo de contraseña
+                  TextField(
+                    controller: passwordController,
+                    obscureText: !isPasswordVisible,
+                    decoration: InputDecoration(
+                      labelText: "Contraseña",
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        },
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+
+                  // Botón de login
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: login,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF4CAF50),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      child: const Text(
+                        "Iniciar sesión",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+
+                  // Enlace a registro
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      "¿No tienes una cuenta? Regístrate",
+                      style: TextStyle(color: Color(0xFF4CAF50)),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: (){ Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Menu(title: "Menu de Opciones",)), (route) => false);},
-              child: Text("Iniciar Sesion"),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class Menu extends StatefulWidget {
-  String title;
-
-  Menu({required this.title});
-
-  @override
-  State<Menu> createState() => _MenuState();
-}
-
-class _MenuState extends State<Menu> {
-  @override
-  Widget build(BuildContext context) {
-    // widget.title;
-
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(onPressed: (){ Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>FAQ(title: "Preguntas Frecuentes",)), (route) => false);}, child: Text("FAQ")),
-            ElevatedButton(onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductForm(title: 'Formulario de Productos',)));}, child: Text("Formulario de Productos")),
-            ElevatedButton(onPressed: (){ Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginView()), (route) => false);}, child: Text("LogOut")),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class FAQ extends StatefulWidget {
-  String title;
-
-  FAQ({required this.title});
-
-  @override
-  State<FAQ> createState() => _FAQState();
-}
-
-class _FAQState extends State<FAQ> {
-  @override
-  Widget build(BuildContext context) {
-    // widget.title;
-
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("Preguntas Frecuentes"),
-            SizedBox(height: 12),
-            Text("¿Cómo puedo cambiar mi contraseña?"),
-            SizedBox(height: 12),
-            Text("¿Dónde puedo ver mis pedidos?"),
-            SizedBox(height: 12),
-            Text("¿Cómo contacto al soporte?"),
-            SizedBox(height: 12),
-
-            ElevatedButton(onPressed: (){ Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Menu(title: "Menu de Opciones",)), (route) => false);}, child: Text("Regresar al Menu")),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ProductForm extends StatefulWidget {
-  String title;
-
-  ProductForm({required this.title});
-
-  @override
-  State<ProductForm> createState() => _ProductFormState();
-}
-
-class _ProductFormState extends State<ProductForm> {
-  @override
-  Widget build(BuildContext context) {
-    // widget.title;
-
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("Formulario de Productos"),
-            SizedBox(height: 12),
-            TextField(decoration: const InputDecoration(labelText: 'Nombre del Producto')),
-            SizedBox(height: 12),
-            TextField(decoration: const InputDecoration(labelText: 'Descripción')),
-            SizedBox(height: 12),
-            TextField(decoration: const InputDecoration(labelText: 'Precio')),
-            SizedBox(height: 12),
-            ElevatedButton(onPressed: (){}, child: Text("Agregar Producto")),
-            ElevatedButton(onPressed: (){ Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>Menu(title: "Menu de Opciones",)), (route) => false);}, child: Text("Regresar al Menu")),
-          ],
+          ),
         ),
       ),
     );
